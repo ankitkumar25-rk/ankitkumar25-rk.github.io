@@ -36,16 +36,16 @@ export default function TractorScene() {
         <Tractor3D />
 
         {/* Top label */}
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none select-none">
+        <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none select-none w-[calc(100%-2rem)] sm:w-auto">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-background/70 backdrop-blur-md px-5 py-2"
+            className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-background/70 backdrop-blur-md px-3 sm:px-5 py-2 max-w-full"
           >
-            <Settings className="h-4 w-4 text-amber-400 animate-spin" style={{ animationDuration: "6s" }} />
-            <span className="text-xs font-semibold tracking-widest text-amber-400 uppercase">
+            <Settings className="h-4 w-4 text-amber-400 animate-spin shrink-0" style={{ animationDuration: "6s" }} />
+            <span className="text-[10px] sm:text-xs font-semibold tracking-wider sm:tracking-widest text-amber-400 uppercase text-center">
               5911 Tractor Mode: ON — Scroll to cultivate
             </span>
           </motion.div>
@@ -68,7 +68,7 @@ export default function TractorScene() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="absolute bottom-8 right-8 z-10 max-w-xs p-3 rounded-xl border border-neutral-800 bg-neutral-900/70 backdrop-blur-md pointer-events-none select-none"
+          className="absolute bottom-6 sm:bottom-8 right-3 sm:right-8 z-10 max-w-[200px] sm:max-w-xs p-3 rounded-xl border border-neutral-800 bg-neutral-900/70 backdrop-blur-md pointer-events-none select-none"
         >
           <p className="text-[10px] italic text-neutral-400 leading-relaxed font-serif">
             "Dil da ni maada, tera Sidhu Moose Wala."

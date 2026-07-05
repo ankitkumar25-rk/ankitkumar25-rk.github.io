@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Send, CheckCircle2, MessageSquare } from "lucide-react";
+import { Mail, Send, CheckCircle2, MessageSquare, Phone } from "lucide-react";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
@@ -14,6 +14,15 @@ export default function Contact() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear pending timer if component unmounts before the 5s banner auto-hides
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    };
+  }, []);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -40,27 +49,57 @@ export default function Contact() {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate server request
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    
-    // Trigger confetti
-    confetti({
-      particleCount: 150,
-      spread: 80,
-      origin: { y: 0.6 },
-      colors: ["#8b5cf6", "#6366f1", "#d946ef", "#10b981"],
-    });
+    setServerError("");
 
-    setFormData({ name: "", email: "", message: "" });
-    
-    // Reset success banner after 5 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-    }, 5000);
+    const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+    if (!formspreeId || formspreeId === "YOUR_FORM_ID") {
+      setServerError("Contact form is not configured yet. Please check back soon.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setServerError(data?.errors?.[0]?.message || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setIsSuccess(true);
+      setFormData({ name: "", email: "", message: "" });
+
+      // Trigger confetti
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ["#8b5cf6", "#6366f1", "#d946ef", "#10b981"],
+      });
+
+      // Auto-hide success banner after 5s — stored in ref so it can be cleared on unmount
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+    } catch {
+      setServerError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -85,15 +124,9 @@ export default function Contact() {
     },
     {
       name: "LinkedIn",
-      href: "https://linkedin.com/in/ankitkumar25-rk",
+      href: "https://www.linkedin.com/in/ankit-kumar-478316378/",
       icon: <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>,
       color: "hover:text-indigo-400 hover:bg-indigo-950/40 hover:shadow-[0_0_15px_rgba(99,102,241,0.2)]",
-    },
-    {
-      name: "Twitter",
-      href: "https://x.com/ankitkumar25_rk",
-      icon: <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg>,
-      color: "hover:text-fuchsia-400 hover:bg-fuchsia-950/40 hover:shadow-[0_0_15px_rgba(217,70,239,0.2)]",
     },
   ];
 
@@ -103,7 +136,7 @@ export default function Contact() {
       <div className="absolute bottom-0 right-0 -z-10 h-96 w-96 rounded-full bg-violet-600/5 blur-[120px]" />
       <div className="absolute top-1/4 left-0 -z-10 h-72 w-72 rounded-full bg-fuchsia-600/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
         
         {/* Section Heading */}
         <motion.div
@@ -123,7 +156,7 @@ export default function Contact() {
           <div className="mt-4 h-1 w-16 bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
           
           {/* Left Column: Direct Info & Socials */}
           <motion.div
@@ -131,7 +164,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 space-y-8"
+            className="md:col-span-5 space-y-8"
           >
             <div className="space-y-4">
               <h3 className="text-2xl font-bold text-white">Contact Details</h3>
@@ -159,6 +192,24 @@ export default function Contact() {
                 </div>
               </SpotlightCard>
 
+              {/* Phone card */}
+              <SpotlightCard
+                className="bg-neutral-900/10 border-emerald-950/60 p-5"
+                spotlightColor="rgba(139, 92, 246, 0.08)"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-violet-950/60 rounded-xl border border-violet-500/20 text-violet-400">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-semibold text-neutral-500 tracking-wider uppercase font-mono">Phone / WhatsApp</span>
+                    <a href="tel:+919772609535" className="text-sm font-semibold text-neutral-200 hover:text-white transition-colors">
+                      +91 97726 09535
+                    </a>
+                  </div>
+                </div>
+              </SpotlightCard>
+
               {/* Chat invitation card */}
               <SpotlightCard
                 className="bg-neutral-900/10 border-emerald-950/60 p-5"
@@ -171,7 +222,7 @@ export default function Contact() {
                   <div>
                     <span className="block text-xs font-semibold text-neutral-500 tracking-wider uppercase font-mono">Quick Chat</span>
                     <span className="text-sm font-semibold text-neutral-200">
-                      LinkedIn Messages / Twitter DM
+                      LinkedIn Messages
                     </span>
                   </div>
                 </div>
@@ -206,10 +257,10 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-7"
+            className="md:col-span-7"
           >
             <SpotlightCard
-              className="bg-neutral-950/20 border-emerald-950/80 p-8"
+              className="bg-neutral-950/20 border-emerald-950/80 p-5 sm:p-8"
               spotlightColor="rgba(16, 185, 129, 0.04)"
               borderColor="rgba(16, 185, 129, 0.25)"
             >
@@ -294,7 +345,18 @@ export default function Contact() {
                         className="mt-4 flex items-center gap-2 rounded-xl bg-emerald-950/40 border border-emerald-500/20 px-4 py-3 text-sm text-emerald-400"
                       >
                         <CheckCircle2 className="h-5 w-5 shrink-0" />
-                        <span>Message sent successfully! Thank you.</span>
+                        <span>Message sent! I'll reply within 24 hours. Check your inbox for a confirmation.</span>
+                      </motion.div>
+                    )}
+                    {serverError && !isSuccess && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mt-4 flex items-center gap-2 rounded-xl bg-red-950/40 border border-red-500/20 px-4 py-3 text-sm text-red-400"
+                      >
+                        <span className="shrink-0 text-base">⚠️</span>
+                        <span>{serverError}</span>
                       </motion.div>
                     )}
                   </AnimatePresence>

@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-neutral-900 bg-neutral-950/40 py-12">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Branding / Info */}
         <div className="flex flex-col items-center md:items-start gap-1">

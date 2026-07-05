@@ -217,7 +217,7 @@ export default function Projects() {
       <div className="absolute top-1/3 right-1/4 -z-10 h-80 w-80 rounded-full bg-amber-500/5 blur-[120px]" />
       <div className="absolute bottom-1/3 left-1/4 -z-10 h-80 w-80 rounded-full bg-emerald-500/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
         
         {/* Section Heading */}
         <motion.div
@@ -243,7 +243,7 @@ export default function Projects() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {projectsList.map((project, idx) => (
             <motion.div

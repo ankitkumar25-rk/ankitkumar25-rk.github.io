@@ -16,17 +16,7 @@ import Loader from "@/components/ui/Loader";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "dark" | "light";
-    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-    const initialTheme = savedTheme || (systemPrefersLight ? "light" : "dark");
-    
-    if (initialTheme === "light") {
-      document.documentElement.classList.add("light");
-    } else {
-      document.documentElement.classList.remove("light");
-    }
-  }, []);
+  // Theme is handled by the blocking inline script in layout.tsx — no useEffect needed here.
 
   useEffect(() => {
     document.body.style.overflow = isLoading ? "hidden" : "unset";

@@ -158,7 +158,13 @@ export default function Tractor3D() {
         const pt = particles[i]; pt.mesh.position.add(pt.vel); pt.life++;
         pt.mesh.scale.multiplyScalar(1.03);
         (pt.mesh.material as THREE.MeshBasicMaterial).opacity = Math.max(0.55 * (1 - pt.life / pt.max), 0);
-        if (pt.life >= pt.max) { scene.remove(pt.mesh); pt.mesh.geometry.dispose(); (pt.mesh.material as THREE.Material).dispose(); particles.splice(i, 1); }
+        if (pt.life >= pt.max) {
+          scene.remove(pt.mesh);
+          // ← DO NOT dispose pt.mesh.geometry — skg is shared across all particles.
+          // It will be disposed once in the useEffect cleanup below.
+          (pt.mesh.material as THREE.Material).dispose(); // each particle has its own material
+          particles.splice(i, 1);
+        }
       }
 
       renderer.render(scene, camera);
@@ -178,6 +184,10 @@ export default function Tractor3D() {
       cancelAnimationFrame(reqId);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", handleResize);
+      // Dispose shared smoke geometry here — once, on full unmount
+      skg.dispose();
+      // Dispose any remaining live particles
+      particles.forEach(pt => (pt.mesh.material as THREE.Material).dispose());
       if (container?.contains(renderer.domElement)) container.removeChild(renderer.domElement);
       renderer.dispose();
     };

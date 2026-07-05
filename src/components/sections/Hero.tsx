@@ -16,17 +16,17 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen w-full items-center overflow-hidden pt-20"
+      className="relative flex min-h-screen w-full items-center overflow-hidden pt-20 pb-16"
     >
       {/* Ambient gradient glow blobs */}
       <div className="absolute top-1/3 left-1/4 -z-10 h-80 w-80 rounded-full bg-emerald-600/10 blur-[120px]" />
       <div className="absolute bottom-1/4 right-1/4 -z-10 h-96 w-96 rounded-full bg-amber-600/10 blur-[120px]" />
 
-      <div className="mx-auto w-full max-w-7xl px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
 
           {/* ── LEFT: Intro Text ── */}
-          <div className="flex flex-col gap-6 order-2 md:order-1">
+          <div className="flex flex-col gap-5 md:gap-6 order-2 md:order-1 min-w-0">
 
             {/* Status pill */}
             <motion.div
@@ -53,7 +53,7 @@ export default function Hero() {
               <p className="text-lg text-neutral-400 font-medium mb-1 flex items-center gap-1.5">
                 <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" /> Hey there, I'm
               </p>
-              <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
                 Ankit{" "}
                 <span className="bg-gradient-to-r from-amber-400 to-emerald-400 bg-clip-text text-transparent">
                   Kumar
@@ -66,9 +66,9 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex items-center gap-2 text-lg text-neutral-300 font-mono"
+              className="flex items-start gap-2 text-sm sm:text-base lg:text-lg text-neutral-300 font-mono"
             >
-              <Terminal className="h-5 w-5 text-amber-400 shrink-0" />
+              <Terminal className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
               <span>
                 <DecryptedText
                   text="I build software the way we farm — with patience, discipline & zero shortcuts."
@@ -90,8 +90,8 @@ export default function Hero() {
               className="text-neutral-400 text-base leading-relaxed max-w-lg"
             >
               A full-stack developer from Udaipurwati, Jhunjhunu — Rajasthan farmland,
-              not a metro city. Grew up around the fields, made it to IIT Jodhpur for
-              Bioengineering, and taught myself to code along the way. Village roots,
+              not a metro city. Grew up around the fields, made it to IIT Jodhpur,
+              and taught myself to code along the way. Village roots,
               production-grade code. Inspired by{" "}
               <span className="text-amber-400 font-semibold">Sidhu Moosewala</span> —
               proof that staying rooted and going global aren't opposites.
@@ -102,16 +102,16 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35 }}
-              className="flex items-center gap-8 py-4 border-t border-b border-emerald-950/60"
+              className="grid grid-cols-3 gap-3 py-4 border-t border-b border-emerald-950/60"
             >
               {[
-                { value: "2+", label: "Live Products Shipped" },
+                { value: "2+", label: "Products Shipped" },
                 { value: "1+", label: "Years Coding" },
-                { value: "IIT-J", label: "Bioengineering @ IIT Jodhpur" },
+                { value: "IIT-J", label: "IIT Jodhpur" },
               ].map((s, i) => (
-                <div key={i} className="flex flex-col">
-                  <span className="text-xl font-extrabold text-amber-400 font-mono">{s.value}</span>
-                  <span className="text-[10px] uppercase tracking-wider text-neutral-500">{s.label}</span>
+                <div key={i} className="flex flex-col min-w-0">
+                  <span className="text-lg sm:text-xl font-extrabold text-amber-400 font-mono">{s.value}</span>
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-neutral-500 leading-tight mt-0.5">{s.label}</span>
                 </div>
               ))}
             </motion.div>
@@ -147,7 +147,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="order-1 md:order-2 flex justify-center"
+            className="order-1 md:order-2 flex justify-center pt-8 md:pt-0"
           >
             <div className="relative">
               {/* Glowing ring backdrop */}
@@ -168,12 +168,12 @@ export default function Hero() {
               />
 
               {/* Actual profile image */}
-              <div className="relative h-72 w-72 sm:h-80 sm:w-80 rounded-full overflow-hidden border-4 border-emerald-900/60 shadow-[0_0_40px_rgba(245,158,11,0.15)]">
+              <div className="relative h-56 w-56 sm:h-72 sm:w-72 md:h-80 md:w-80 rounded-full overflow-hidden border-4 border-emerald-900/60 shadow-[0_0_40px_rgba(245,158,11,0.15)]">
                 <Image
                   src="/profile.png"
                   alt="Ankit Kumar - Full-Stack Developer"
                   fill
-                  sizes="(max-width: 640px) 288px, 320px"
+                  sizes="(max-width: 480px) 224px, (max-width: 640px) 288px, 320px"
                   className="object-cover object-top"
                   priority
                 />
@@ -183,7 +183,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, -6, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className="absolute -bottom-3 -left-4 flex items-center gap-2 rounded-full border border-amber-500/30 bg-neutral-900/80 backdrop-blur-sm px-3 py-1.5 shadow-lg text-amber-400"
+                className="absolute -bottom-3 -left-2 sm:-left-4 flex items-center gap-2 rounded-full border border-amber-500/30 bg-neutral-900/80 backdrop-blur-sm px-3 py-1.5 shadow-lg text-amber-400"
               >
                 <Tractor className="h-4 w-4 shrink-0" />
                 <span className="text-[11px] font-mono font-bold">5911</span>
@@ -193,7 +193,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -top-3 -right-4 flex items-center gap-2 rounded-full border border-emerald-500/30 bg-neutral-900/80 backdrop-blur-sm px-3 py-1.5 shadow-lg text-emerald-400"
+                className="absolute -top-3 -right-2 sm:-right-4 flex items-center gap-2 rounded-full border border-emerald-500/30 bg-neutral-900/80 backdrop-blur-sm px-3 py-1.5 shadow-lg text-emerald-400"
               >
                 <Terminal className="h-4 w-4 shrink-0" />
                 <span className="text-[11px] font-mono font-bold">Full-Stack</span>

@@ -51,7 +51,7 @@ export default function Experience() {
       {/* Decorative Gradient Flares */}
       <div className="absolute top-1/2 left-1/4 -z-10 h-72 w-72 rounded-full bg-emerald-500/5 blur-[100px]" />
 
-      <div className="mx-auto max-w-4xl px-6 relative z-10">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 relative z-10">
         
         {/* Section Heading */}
         <motion.div

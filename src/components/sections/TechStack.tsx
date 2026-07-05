@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import SpotlightCard from "@/components/animations/SpotlightCard";
 import {
@@ -46,7 +46,10 @@ const TechIcon = ({
   isInvertible?: boolean;
   fallback?: React.ComponentType<any>;
 }) => {
-  if (!slug && Fallback) {
+  const [imgError, setImgError] = useState(false);
+
+  // Show Lucide fallback if: no slug provided, or CDN image failed to load
+  if ((!slug || imgError) && Fallback) {
     return <Fallback className="h-5 w-5 shrink-0 text-neutral-400" />;
   }
 
@@ -54,6 +57,7 @@ const TechIcon = ({
     <img
       src={`https://cdn.simpleicons.org/${slug}`}
       alt={slug}
+      onError={() => setImgError(true)}
       className={`h-5 w-5 shrink-0 transition-all duration-300 ${
         isInvertible ? "invert brightness-200 [.light_&]:invert-0 [.light_&]:brightness-100" : ""
       }`}
@@ -190,7 +194,7 @@ export default function TechStack() {
       <div className="absolute top-1/3 left-1/4 -z-10 h-80 w-80 rounded-full bg-emerald-500/5 blur-[120px]" />
       <div className="absolute bottom-1/3 right-1/4 -z-10 h-80 w-80 rounded-full bg-amber-500/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
         
         {/* Section Heading */}
         <motion.div
@@ -219,7 +223,7 @@ export default function TechStack() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {categories.map((category, idx) => {
             const isDevOps = category.title === "DevOps & Deployment";
@@ -228,7 +232,7 @@ export default function TechStack() {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className={`flex ${isDevOps ? "md:col-span-2 lg:col-span-3" : ""}`}
+                className={`flex min-w-0 ${isDevOps ? "sm:col-span-2 lg:col-span-3" : ""}`}
               >
                 <SpotlightCard
                   className="flex flex-col w-full h-full bg-neutral-900/10 border-emerald-950/60 p-6 hover:border-emerald-800/40 transition-all duration-300"

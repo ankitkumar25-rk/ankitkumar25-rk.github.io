@@ -45,6 +45,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
   
@@ -55,8 +61,20 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300">
+      <head>
+        {/* Blocking inline script — runs before paint, eliminates flash of wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='light'||(!t&&!d)){document.documentElement.classList.add('light');}else{document.documentElement.classList.remove('light');}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body
+        className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

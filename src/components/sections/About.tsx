@@ -10,23 +10,27 @@ import { User, ShieldAlert, Cpu, Heart, Landmark, Headphones } from "lucide-reac
 const Counter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
+  const rafRef = useRef<number>(0);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   useEffect(() => {
     if (!isInView) return;
     let startTime: number | null = null;
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
 
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       setCount(Math.floor(progress * value));
       if (progress < 1) {
-        window.requestAnimationFrame(step);
+        rafRef.current = window.requestAnimationFrame(step);
       }
     };
 
-    window.requestAnimationFrame(step);
+    rafRef.current = window.requestAnimationFrame(step);
+
+    // Cancel animation if component unmounts mid-animation
+    return () => cancelAnimationFrame(rafRef.current);
   }, [isInView, value]);
 
   return (
@@ -81,8 +85,8 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="relative py-24 md:py-32 overflow-hidden bg-neutral-950/20">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+    <section id="about" className="relative py-20 md:py-32 overflow-hidden bg-neutral-950/20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
         
         {/* Section Heading */}
         <motion.div
@@ -108,10 +112,10 @@ export default function About() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
+          className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12"
         >
           {/* Left Column: Summary */}
-          <motion.div variants={itemVariants} className="lg:col-span-6 flex flex-col justify-center">
+          <motion.div variants={itemVariants} className="md:col-span-6 flex flex-col justify-center min-w-0">
             <h3 className="text-2xl font-bold text-white mb-6">
               From Udaipurwati's Fields to IIT Jodhpur's Labs.
             </h3>
@@ -123,7 +127,7 @@ export default function About() {
                 growing up: figuring it out myself, one mistake at a time.
               </p>
               <p>
-                I'm currently a B.Tech Bioengineering student at IIT Jodhpur. Coding
+                I'm currently a B.Tech student at IIT Jodhpur. Coding
                 started as a side thing — I placed 2nd at the Boot-Up Hackathon run by
                 DevLup Labs at IIT Jodhpur, and that's what pulled me into building for
                 real. Since then I've built and shipped PhotowalaGift, a live gifting
@@ -138,7 +142,7 @@ export default function About() {
             </div>
 
             {/* Fun Stats Counters Container */}
-            <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-emerald-950/60">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-emerald-950/60">
               <div className="flex flex-col">
                 <Counter value={2} />
                 <span className="text-[10px] uppercase font-mono text-neutral-500 tracking-wider mt-1">
@@ -155,7 +159,7 @@ export default function About() {
           </motion.div>
 
           {/* Right Column: Skills / Badges */}
-          <motion.div variants={itemVariants} className="lg:col-span-6 flex flex-col gap-6">
+          <motion.div variants={itemVariants} className="md:col-span-6 flex flex-col gap-6 min-w-0">
             <h3 className="text-xl font-semibold text-white mb-2">Technical Engine Spec</h3>
             
             <div className="flex flex-col gap-6">

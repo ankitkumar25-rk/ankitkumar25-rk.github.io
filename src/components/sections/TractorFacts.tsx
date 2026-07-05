@@ -54,7 +54,7 @@ export default function TractorFacts() {
       <div className="absolute top-1/4 left-10 -z-10 h-80 w-80 rounded-full bg-emerald-500/5 blur-[120px]" />
       <div className="absolute bottom-1/4 right-10 -z-10 h-80 w-80 rounded-full bg-amber-500/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
         
         {/* Section Heading */}
         <div className="mb-16 flex flex-col items-center text-center">
@@ -68,10 +68,10 @@ export default function TractorFacts() {
           <div className="mt-4 h-1 w-16 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
           
-          {/* Left: Facts Grid (8 columns) */}
-          <div className="lg:col-span-7">
+          {/* Left: Facts Grid */}
+          <div className="md:col-span-7">
             <motion.div
               variants={containerVariants}
               initial="hidden"
@@ -96,16 +96,16 @@ export default function TractorFacts() {
             </motion.div>
           </div>
 
-          {/* Right: Sidhu Moose Wala Tribute Panel (5 columns) */}
+          {/* Right: Sidhu Moose Wala Tribute Panel */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 flex"
+            className="md:col-span-5 flex"
           >
             <SpotlightCard
-              className="bg-gradient-to-b from-neutral-900/80 to-neutral-950 border-emerald-950/80 p-8 flex flex-col justify-between hover:border-emerald-800/60 duration-300 relative w-full"
+              className="bg-gradient-to-b from-neutral-900/80 to-neutral-950 border-emerald-950/80 p-6 sm:p-8 flex flex-col justify-between hover:border-emerald-800/60 duration-300 relative w-full"
               spotlightColor="rgba(16, 185, 129, 0.08)"
               borderColor="rgba(16, 185, 129, 0.25)"
             >
@@ -125,7 +125,7 @@ export default function TractorFacts() {
                 <p className="text-xs text-amber-400 font-mono tracking-widest uppercase">
                   Moosa Village to Global Airwaves
                 </p>
-                <p className="text-xs md:text-sm text-neutral-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                   "Sidhu's music represents more than hits—it is a masterclass in staying uncompromised. He wrote lyrics in the same village dialect he grew up speaking, proving that authenticity is the ultimate competitive advantage. I bring this same uncompromised authenticity to software design."
                 </p>
               </div>
