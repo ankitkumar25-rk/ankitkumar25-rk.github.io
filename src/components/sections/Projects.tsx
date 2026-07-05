@@ -12,7 +12,7 @@ const projectsList = [
     description: "Contributing to CogniOS, an open-source system telemetry & anomaly detection project, via DevLup Labs' Summer of Code. Built the multi-layer telemetry pipeline (Layers 1–4) and working on the BlackBox anomaly-detection module (Z-score/slope detection, Isolation Forest) with a SQLite-backed rolling-window daemon.",
     tech: ["Python", "SQLite", "psutil", "Isolation Forest"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/devlup-labs/CogniOS",
     color: "rgba(16, 185, 129, 0.12)",
     border: "rgba(16, 185, 129, 0.3)",
     badgeColor: "fuchsia" as const,
