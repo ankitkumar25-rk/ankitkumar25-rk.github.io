@@ -36,9 +36,15 @@ export default function Tractor3D() {
           mC = M(0xe5e7eb, 0.1, 1.0), mD = M(0x1c1c1e, 0.7, 0),
           mT = M(0x111111, 0.95, 0), mG = M(0xffffff, 0.05, 0);
 
+    let isMobile = w < 768;
+    let scaleVal = isMobile ? 0.22 : 0.42;
+    let SX = isMobile ? -3.8 : -7.0;
+    let EX = isMobile ? 2.2 : 4.0;
+    let posY = isMobile ? -0.8 : -1.0;
+
     const tg = new THREE.Group();
     tg.rotation.y = 0.4;
-    tg.scale.setScalar(0.42); // make it smaller
+    tg.scale.setScalar(scaleVal); // make it smaller
     scene.add(tg);
 
     const mk = (g: THREE.BufferGeometry, m: THREE.Material, x: number, y: number, z: number) => {
@@ -125,10 +131,7 @@ export default function Tractor3D() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
-    // Start position — tractor off-screen LEFT; moves to off-screen RIGHT
-    // With 0.42 scale and 35 FOV, travelling from -7.0 to 4.0 matches screen bounds perfectly without cutting off
-    const SX = -7.0, EX = 4.0;
-    tg.position.set(SX, -1.0, 0);
+    tg.position.set(SX, posY, 0);
 
     const startTime = performance.now();
     let reqId: number;
@@ -144,14 +147,14 @@ export default function Tractor3D() {
       tg.position.x = SX + p * (EX - SX);
 
       if (p > 0.01) {
-        tg.position.y = -1.0 + Math.sin(time * 90) * 0.018;
+        tg.position.y = posY + Math.sin(time * 90) * 0.018;
         const dist = p * (EX - SX);
-        // Correct rolling rotation accounting for tractor scale 0.42
-        rwL.rotation.z = rwR.rotation.z = -(dist / (1.25 * 0.42));
-        fwL.rotation.z = fwR.rotation.z = -(dist / (0.68 * 0.42));
+        // Correct rolling rotation accounting for tractor scale
+        rwL.rotation.z = rwR.rotation.z = -(dist / (1.25 * scaleVal));
+        fwL.rotation.z = fwR.rotation.z = -(dist / (0.68 * scaleVal));
         if (Math.random() < 0.4) spawnSmoke();
       } else {
-        tg.position.y = -1.0;
+        tg.position.y = posY;
       }
 
       for (let i = particles.length - 1; i >= 0; i--) {
@@ -176,6 +179,12 @@ export default function Tractor3D() {
       if (!container) return;
       const nw = container.clientWidth, nh = container.clientHeight;
       camera.aspect = nw / nh; camera.updateProjectionMatrix(); renderer.setSize(nw, nh);
+      isMobile = nw < 768;
+      scaleVal = isMobile ? 0.22 : 0.42;
+      SX = isMobile ? -3.8 : -7.0;
+      EX = isMobile ? 2.2 : 4.0;
+      posY = isMobile ? -0.8 : -1.0;
+      tg.scale.setScalar(scaleVal);
       onScroll();
     };
     window.addEventListener("resize", handleResize);

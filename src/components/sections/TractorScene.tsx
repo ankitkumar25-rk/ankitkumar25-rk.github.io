@@ -16,8 +16,7 @@ export default function TractorScene() {
      */
     <section
       id="tractor-scene"
-      className="relative w-full bg-grain"
-      style={{ height: "300vh" }}
+      className="relative w-full bg-grain h-[180vh] md:h-[300vh]"
     >
       {/* Sticky viewport-locked container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
