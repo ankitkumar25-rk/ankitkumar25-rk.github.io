@@ -16,7 +16,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen w-full items-center overflow-hidden pt-20 pb-16"
+      className="relative flex min-h-screen w-full items-center overflow-hidden pt-20 pb-24 md:pb-16"
     >
       {/* Ambient gradient glow blobs */}
       <div className="absolute top-1/3 left-1/4 -z-10 h-80 w-80 rounded-full bg-emerald-600/10 blur-[120px]" />
@@ -210,7 +210,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-500 hover:text-white transition-colors focus:outline-none"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-neutral-500 hover:text-white transition-colors focus:outline-none"
       >
         <span className="text-[10px] font-mono tracking-widest uppercase">Start 5911 Engine</span>
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
