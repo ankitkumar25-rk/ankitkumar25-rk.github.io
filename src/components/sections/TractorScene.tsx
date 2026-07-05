@@ -51,11 +51,11 @@ export default function TractorScene() {
         </div>
 
         {/* Bottom scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none select-none">
+        <div className="absolute bottom-6 left-4 sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 z-10 pointer-events-none select-none">
           <motion.p
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ repeat: Infinity, duration: 2.5 }}
-            className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase"
+            className="text-[9px] sm:text-[11px] font-mono text-neutral-500 tracking-wider sm:tracking-widest uppercase whitespace-nowrap"
           >
             ↓ Keep scrolling — watch her move
           </motion.p>
@@ -67,12 +67,12 @@ export default function TractorScene() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="absolute bottom-6 sm:bottom-8 right-3 sm:right-8 z-10 max-w-[200px] sm:max-w-xs p-3 rounded-xl border border-neutral-800 bg-neutral-900/70 backdrop-blur-md pointer-events-none select-none"
+          className="absolute bottom-6 right-4 sm:bottom-8 sm:right-8 z-10 max-w-[150px] sm:max-w-xs p-2.5 sm:p-3 rounded-xl border border-neutral-800 bg-neutral-900/70 backdrop-blur-md pointer-events-none select-none"
         >
-          <p className="text-[10px] italic text-neutral-400 leading-relaxed font-serif">
+          <p className="text-[9px] sm:text-[10px] italic text-neutral-400 leading-relaxed font-serif">
             "Dil da ni maada, tera Sidhu Moose Wala."
           </p>
-          <span className="block text-[9px] font-mono text-amber-400 mt-1 tracking-widest uppercase">
+          <span className="block text-[8px] sm:text-[9px] font-mono text-amber-400 mt-1 tracking-widest uppercase">
             — Rest In Power (1993–2022)
           </span>
         </motion.div>
